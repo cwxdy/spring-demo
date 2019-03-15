@@ -13,9 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class DoActionImp  {
 
 	public GeneralResponse doAction_1(String arg1, String arg2){
-		// TODO Auto-generated method stub
-		
-		System.out.println(arg1);
 		Map<String,String> map=new HashMap<String,String>(){{
 			put("name",arg1);
 			put("dept",arg2);

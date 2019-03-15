@@ -9,28 +9,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.GeneralResponse;
+
 @RestController
+@RequestMapping(value = "/api")
 public class Controller {
+
 	@Autowired
 	private DoActionImp doActionImp;
-	/*
-	 * @PathVariable可以直接接受链接参数
-	 */
-	@RequestMapping(value = "/hi/{name}/{dep}")
+
+	@RequestMapping(value = "/hi/{name}/{dep}",method = RequestMethod.GET)
 	public GeneralResponse get1(@PathVariable String name, @PathVariable String dep) {
 		System.out.println(name + "|" + dep);
-		GeneralResponse httpResp=doActionImp.doAction_1(name, dep);
-		return httpResp;
+		return doActionImp.doAction_1(name, dep);
 	}
-	/*
-	 * @RequestBody可以接受消息体内容
-	 */
+
+
 	@RequestMapping(value = "/postByJson",method=RequestMethod.POST)
-	public String post2(@RequestBody String requestData) {
-		JSONObject json = JSONObject.parseObject(requestData);
+	public GeneralResponse post2(@RequestBody JSONObject json) {
 		System.out.println(json.getString("name"));
 		System.out.println(json.getString("dep"));
-		return requestData.toString();
+		return GeneralResponse.addSuccess(json);
 	}
 
 }
