@@ -25,6 +25,33 @@ public class AttributeEntity {
     private String attr9Name;
     private String attr10;
     private String attr10Name;
+    private String createdName;
+    private String createdDate;
+    private String lastModifyDate;
+
+    public String getCreatedName() {
+        return createdName;
+    }
+
+    public void setCreatedName(String createdName) {
+        this.createdName = createdName;
+    }
+
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifyDate() {
+        return lastModifyDate;
+    }
+
+    public void setLastModifyDate(String lastModifyDate) {
+        this.lastModifyDate = lastModifyDate;
+    }
 
     public String getAttr1() {
         return attr1;
