@@ -1,9 +1,19 @@
 package com.example.demo.base;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
+import java.util.Date;
 
 @MappedSuperclass
-public class AttributeEntity {
+@EntityListeners(AuditingEntityListener.class)
+public class AttributeEntity implements Serializable {
 
     private String attr1;
     private String attr1Name;
@@ -25,9 +35,14 @@ public class AttributeEntity {
     private String attr9Name;
     private String attr10;
     private String attr10Name;
+    @CreatedBy
     private String createdName;
-    private String createdDate;
-    private String lastModifyDate;
+    @CreatedDate
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", locale = "zh" , timezone="GMT+8")
+    private Date createdDate;
+    @LastModifiedDate
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", locale = "zh" , timezone="GMT+8")
+    private Date lastModifyDate;
 
     public String getCreatedName() {
         return createdName;
@@ -37,19 +52,19 @@ public class AttributeEntity {
         this.createdName = createdName;
     }
 
-    public String getCreatedDate() {
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(String createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
-    public String getLastModifyDate() {
+    public Date getLastModifyDate() {
         return lastModifyDate;
     }
 
-    public void setLastModifyDate(String lastModifyDate) {
+    public void setLastModifyDate(Date lastModifyDate) {
         this.lastModifyDate = lastModifyDate;
     }
 

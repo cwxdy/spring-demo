@@ -6,6 +6,9 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+/**
+ * 启动后加载程序
+ */
 @Component
 public class StartupRunner implements ApplicationRunner {
     private Logger logger = LoggerFactory.getLogger(this.getClass());

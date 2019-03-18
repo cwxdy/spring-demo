@@ -1,9 +1,10 @@
 package com.example.demo;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import static org.springframework.boot.SpringApplication.run;
-@SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
+@SpringBootApplication
+@EnableJpaAuditing
 public class SpringDemoApplication {
 
 	public static void main(String[] args) {

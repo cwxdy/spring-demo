@@ -1,14 +1,14 @@
-package com.example.demo.entity;
+package com.example.demo.dto;
 import java.io.Serializable;
-public class GeneralResponse implements Serializable {
+public class GeneralResponseDto implements Serializable {
 	
 	private int code;
 	private String returnMsg;
 	private String status;
 	private Object data;
-	public static final String SYS_SUCCESS="成功";
-	public static final String SYS_ERROR="失败";
-    public GeneralResponse(int code,String returnMsg,Object data) {
+	public static final String SYS_SUCCESS="success";
+	public static final String SYS_ERROR="error";
+    public GeneralResponseDto(int code, String returnMsg, Object data) {
         super();
         this.code = code;
         this.returnMsg = returnMsg;
@@ -16,11 +16,11 @@ public class GeneralResponse implements Serializable {
         this.data=data;
     }
 
-	public  static  GeneralResponse addSuccess(Object data){
-        return new GeneralResponse(1,null,data);
+	public  static GeneralResponseDto addSuccess(Object data){
+        return new GeneralResponseDto(1,null,data);
     }
-    public  static  GeneralResponse addError(String errMsg){
-        return new GeneralResponse(-1,errMsg,null);
+    public  static GeneralResponseDto addError(String errMsg){
+        return new GeneralResponseDto(-1,errMsg,null);
     }
 
     public int getCode() {
