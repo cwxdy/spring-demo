@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 import com.example.demo.base.AttributeEntity;
+
 import javax.persistence.*;
 import java.io.Serializable;
 /**

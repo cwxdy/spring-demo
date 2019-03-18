@@ -37,7 +37,7 @@ public class MasterSourceConfig {
     @Qualifier("primaryDataSource")
     private DataSource primaryDataSource;// 自动注入配置好的数据源
 
-    @Value("${spring.jpa.database-platform}")
+    @Value("${spring.jpa.hibernate.dialect}")
     private String primaryDialect;// 获取对应的数据库方言
 
 

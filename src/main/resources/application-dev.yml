@@ -4,8 +4,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+      naming-strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy   #命名规范
+      dialect: org.hibernate.dialect.MySQL5Dialect
     show-sql: true
-    database-platform: org.hibernate.dialect.MySQL5Dialect
+#    database-platform: org.hibernate.dialect.MySQL5Dialect
     database: mysql
   datasource:
     master:
