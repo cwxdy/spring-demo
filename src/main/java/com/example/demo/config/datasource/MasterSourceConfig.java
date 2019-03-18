@@ -2,6 +2,7 @@ package com.example.demo.config.datasource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
@@ -37,10 +38,6 @@ public class MasterSourceConfig {
     @Qualifier("primaryDataSource")
     private DataSource primaryDataSource;// 自动注入配置好的数据源
 
-    @Value("${spring.jpa.hibernate.dialect}")
-    private String primaryDialect;// 获取对应的数据库方言
-
-
     /**
      *
      * @param builder
@@ -64,11 +61,9 @@ public class MasterSourceConfig {
 
     }
 
-    private Map<String, String> getVendorProperties(DataSource dataSource) {
-        Map<String,String> map = new HashMap<>();
-        map.put("hibernate.dialect",primaryDialect);// 设置对应的数据库方言
-        jpaProperties.setProperties(map);
-        return jpaProperties.getProperties();
+
+    private Map<String, Object> getVendorProperties(DataSource dataSource) {
+        return jpaProperties.getHibernateProperties(new HibernateSettings());
     }
 
     /**

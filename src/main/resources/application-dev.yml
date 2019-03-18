@@ -3,15 +3,14 @@ server:
 spring:
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming-strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy   #命名规范
-      dialect: org.hibernate.dialect.MySQL5Dialect
     show-sql: true
-#    database-platform: org.hibernate.dialect.MySQL5Dialect
+    database-platform: org.hibernate.dialect.MySQL5Dialect
     database: mysql
   datasource:
     master:
-      jdbc-url: jdbc:mysql://122.152.200.229:3306/springboot
+      jdbc-url: jdbc:mysql://122.152.200.229:3306/springboot?useSSL=false
       username: root
       password: xlife123
       driver-class-name: com.mysql.jdbc.Driver
@@ -29,4 +28,16 @@ spring:
         testOnReturn: false                            #归还连接时执行检测，建议关闭，影响性能
         poolPreparedStatements: false                  #是否开启PSCache，PSCache对支持游标的数据库性能提升巨大，oracle建议开启，mysql下建议关闭
         maxPoolPreparedStatementPerConnectionSize: 20  #开启poolPreparedStatements后生效
+  redis:
+    database: 0
+    host: 122.152.200.229 #Redis服务器地址
+    port: 6379   # Redis服务器连接端口
+    password: xlife123 # Redis服务器连接密码（默认为空）
+    jedis:   # 连接池最大连接数（使用负值表示没有限制）
+      pool:
+        max-active: 8  #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms  # 连接池中的最大空闲连接
+        max-idle: 8 # 连接池中的最小空闲连接
+        min-idle: 0
+        timeout: 0  # 连接超时时间（毫秒）
 
