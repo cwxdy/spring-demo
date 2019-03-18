@@ -5,7 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-
+/**
+ * @Author: ChangYu
+ * @Version 1.0
+ */
 /**
  * 启动后加载程序
  */

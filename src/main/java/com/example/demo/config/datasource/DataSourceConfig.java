@@ -1,5 +1,4 @@
 package com.example.demo.config.datasource;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -7,9 +6,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
-
 import javax.sql.DataSource;
 
+/**
+ * @Author: ChangYu
+ * @Version 1.0
+ */
 /**
  * 数据源注解配置
  */

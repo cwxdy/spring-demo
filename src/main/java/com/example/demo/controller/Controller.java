@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.GeneralResponseDto;
-
+/**
+ * @Author: ChangYu
+ * @Version 1.0
+ */
 @RestController
 @RequestMapping(value = "/api")
 public class Controller extends BaseController {

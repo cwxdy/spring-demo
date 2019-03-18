@@ -1,5 +1,9 @@
 package com.example.demo.dto;
 import java.io.Serializable;
+/**
+ * @Author: ChangYu
+ * @Version 1.0
+ */
 public class GeneralResponseDto implements Serializable {
 	
 	private int code;

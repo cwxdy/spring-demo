@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-
+/**
+ * @Author: ChangYu
+ * @Version 1.0
+ */
 @RestController
 public class BaseController {
 

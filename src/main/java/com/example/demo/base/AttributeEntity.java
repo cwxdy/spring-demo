@@ -10,7 +10,10 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.util.Date;
-
+/**
+ * @Author: ChangYu
+ * @Version 1.0
+ */
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class AttributeEntity implements Serializable {

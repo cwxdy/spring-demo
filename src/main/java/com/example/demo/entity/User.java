@@ -2,7 +2,10 @@ package com.example.demo.entity;
 import com.example.demo.base.AttributeEntity;
 import javax.persistence.*;
 import java.io.Serializable;
-
+/**
+ * @Author: ChangYu
+ * @Version 1.0
+ */
 @Entity
 @Table(name = "SPRING_BOOT_USER")
 public class User extends AttributeEntity implements Serializable {
