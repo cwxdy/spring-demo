@@ -1,8 +1,14 @@
-package com.example.demo.config;
+package com.example.demo.config.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.config.Consants;
+import com.example.demo.config.redis.RedisUtil;
+import com.example.demo.entity.User;
+import com.example.demo.utils.json.JSONUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -10,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.concurrent.TimeUnit;
 /**
  * @Author: ChangYu
  * @Version 1.0
@@ -17,9 +24,14 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 拦截器
  */
-@Component
+@Configuration
 public class Interceptor implements HandlerInterceptor {
+
+
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+    @Autowired
+    private RedisUtil redisUtil;
 
 
     @Override
@@ -29,7 +41,25 @@ public class Interceptor implements HandlerInterceptor {
         String beanName = ((HandlerMethod)handler).getBeanType().getName();
         String methodName = ((HandlerMethod)handler).getMethod().getName();
         logger.info(String.format("[接口所在Bean：%s ][函数名：%s ][入参：'%s']",beanName,methodName,null));
+        String token=request.getHeader("token");
+        if(token==null){
+            throw new RuntimeException("缺少token令牌");
+        }
+        authOnline(token,request);
         return true;
+    }
+
+    /**
+     * 登录状态校验
+     * @param token
+     */
+    private void authOnline(String token,HttpServletRequest request) {
+        if(redisUtil.existsKey(token)){
+            redisUtil.expireKey(token,30, TimeUnit.MINUTES);
+            request.setAttribute(Consants.CURRENT_USER_TOKEN,token);
+        }else{
+            throw new RuntimeException("请先登录");
+        }
     }
 
     @Override

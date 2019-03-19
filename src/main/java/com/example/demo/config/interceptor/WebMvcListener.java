@@ -1,8 +1,7 @@
-package com.example.demo.config;
+package com.example.demo.config.interceptor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -19,7 +18,9 @@ public class WebMvcListener implements WebMvcConfigurer {
     private Interceptor interceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(interceptor).addPathPatterns("/api/**");
+        registry.addInterceptor(interceptor).addPathPatterns("/api/**")
+                .excludePathPatterns("/api/regist/**")
+                .excludePathPatterns("/api/login/**");
     }
 
     /**

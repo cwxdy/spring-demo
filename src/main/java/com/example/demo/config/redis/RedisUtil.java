@@ -98,6 +98,9 @@ public class RedisUtil {
     public void expireKey(String key, long time, TimeUnit timeUnit) {
         redisTemplate.expire(key, time, timeUnit);
     }
+    public void expireKey(String key,String value ,long time, TimeUnit timeUnit) {
+        redisTemplate.opsForValue().set(key, value,time, timeUnit);
+    }
 
     /**
      * 指定key在指定的日期过期

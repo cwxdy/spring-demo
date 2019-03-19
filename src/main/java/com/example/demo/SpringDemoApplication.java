@@ -2,6 +2,7 @@ package com.example.demo;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import static org.springframework.boot.SpringApplication.run;
 /**
@@ -11,6 +12,7 @@ import static org.springframework.boot.SpringApplication.run;
 @SpringBootApplication
 @EnableJpaAuditing
 @EnableScheduling
+@EnableSwagger2
 public class SpringDemoApplication {
 
 	public static void main(String[] args) {
