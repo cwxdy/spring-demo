@@ -23,10 +23,6 @@ public class Controller extends BaseController {
 
 	@RequestMapping(value = "/hi/{name}/{dep}",method = RequestMethod.GET)
 	public GeneralResponseDto get1(@PathVariable String name, @PathVariable String dep) {
-		if("changyu".equals(name)){
-			throw new RuntimeException("测试报错");
-		}
-		System.out.println(name + "|" + dep);
-		return userService.doAction_1(name, dep);
+		return GeneralResponseDto.addError("测试");
 	}
 }

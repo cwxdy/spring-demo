@@ -17,6 +17,10 @@ import javax.sql.DataSource;
  */
 @Configuration
 public class DataSourceConfig {
+    /**
+     * 主数据源
+     * @return
+     */
     @Bean(name = "primaryDataSource")
     @Qualifier("primaryDataSource")
     @Primary
@@ -25,6 +29,11 @@ public class DataSourceConfig {
         return DataSourceBuilder.create().build();
     }
 
+    /**
+     * 用于执行原生的SQL语句
+     * @param dataSource
+     * @return
+     */
     @Bean(name = "primaryJdbcTemplate")
     public JdbcTemplate primaryJdbcTemplate(
             @Qualifier("primaryDataSource") DataSource dataSource) {
