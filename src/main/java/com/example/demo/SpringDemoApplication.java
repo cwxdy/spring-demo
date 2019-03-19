@@ -1,6 +1,8 @@
 package com.example.demo;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
 import static org.springframework.boot.SpringApplication.run;
 /**
  * @Author: ChangYu
@@ -8,6 +10,7 @@ import static org.springframework.boot.SpringApplication.run;
  */
 @SpringBootApplication
 @EnableJpaAuditing
+@EnableScheduling
 public class SpringDemoApplication {
 
 	public static void main(String[] args) {

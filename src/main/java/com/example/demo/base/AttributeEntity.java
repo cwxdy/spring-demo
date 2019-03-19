@@ -17,48 +17,13 @@ import java.util.Date;
  * @Version 1.0
  */
 @MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
-public class AttributeEntity implements Serializable {
+public class AttributeEntity  extends AuditEntity implements Serializable {
     @Column(length = 50)
     private String attr1;
     @Column(length = 50)
     private String attr2;
     @Column(length = 50)
     private String attr3;
-    @CreatedBy
-    @Column(length = 50)
-    private String createdName;
-    @CreatedDate
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
-    private Date createdDate;
-    @LastModifiedDate
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
-    private Date lastModifyDate;
-
-    public String getCreatedName() {
-        return createdName;
-    }
-
-    public void setCreatedName(String createdName) {
-        this.createdName = createdName;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getLastModifyDate() {
-        return lastModifyDate;
-    }
-
-    public void setLastModifyDate(Date lastModifyDate) {
-        this.lastModifyDate = lastModifyDate;
-    }
-
     public String getAttr1() {
         return attr1;
     }
