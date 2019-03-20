@@ -49,5 +49,7 @@ spring:
       enabled: false
   session:
     timeout: 30
+logging:
+  config: classpath:logback-boot.xml
 
 
