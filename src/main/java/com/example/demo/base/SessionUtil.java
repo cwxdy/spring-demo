@@ -28,7 +28,7 @@ public class SessionUtil {
      */
     public User getOnlineUser(HttpServletRequest request){
 
-        return JSONUtil.toBean(redisUtil.get(request.getAttribute(Consants.CURRENT_USER_TOKEN).toString()),User.class);
+        return JSONUtil.toBean(redisUtil.get(request.getHeader("token")),User.class);
 
     }
 }

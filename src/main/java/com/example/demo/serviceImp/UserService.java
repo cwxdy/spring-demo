@@ -43,7 +43,6 @@ public class UserService {
         }
         String token= IdUtil.randomUUID();
         redisUtil.expireKey(token, JSONUtil.toJsonStr(user),timeout, TimeUnit.MINUTES);
-        request.setAttribute(Consants.CURRENT_USER_TOKEN,token);
         return GeneralResponseDto.addSuccess(token);
     }
 

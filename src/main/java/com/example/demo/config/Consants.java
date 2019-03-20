@@ -6,5 +6,4 @@ package com.example.demo.config;
  * @Version 1.0
  */
 public class Consants {
-    public static final String CURRENT_USER_TOKEN="CURRENT_USER_TOKEN";
 }
