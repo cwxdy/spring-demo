@@ -48,7 +48,7 @@ public class Interceptor implements HandlerInterceptor {
         if(token==null){
             throw new RuntimeException("缺少token令牌");
         }
-        authOnline(token,request);
+        authOnline(token);
         return true;
     }
 
@@ -56,7 +56,7 @@ public class Interceptor implements HandlerInterceptor {
      * 登录状态校验
      * @param token
      */
-    private void authOnline(String token,HttpServletRequest request) {
+    private void authOnline(String token) {
         if(redisUtil.existsKey(token)){
             redisUtil.expireKey(token,timeout, TimeUnit.MINUTES);
 
