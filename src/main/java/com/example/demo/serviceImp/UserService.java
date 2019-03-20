@@ -1,6 +1,7 @@
 package com.example.demo.serviceImp;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
+import com.example.demo.base.SessionUtil;
 import com.example.demo.config.Consants;
 import com.example.demo.config.redis.RedisUtil;
 import com.example.demo.dao.UserDao;
@@ -9,10 +10,12 @@ import com.example.demo.entity.User;
 import com.example.demo.utils.core.util.HashUtil;
 import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.jws.soap.SOAPBinding;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -29,6 +32,8 @@ public class UserService {
     private  UserDao userDao;
     @Autowired
     private RedisUtil redisUtil;
+    @Value("${spring.session.timeout}")
+    private long timeout;
 
     /**
      * 登录
@@ -36,7 +41,7 @@ public class UserService {
      * @param password
      * @return
      */
-    public GeneralResponseDto login(String username,String password){
+    public GeneralResponseDto login(HttpServletRequest request,String username, String password){
         User user=userDao.findByUsername(username);
         if(user==null){
             throw new RuntimeException("用户不存在");
@@ -45,7 +50,8 @@ public class UserService {
                 throw new RuntimeException("密码错误");
         }
         String token= IdUtil.randomUUID();
-        redisUtil.expireKey(token, JSONUtil.toJsonStr(user),30, TimeUnit.MINUTES);
+        redisUtil.expireKey(token, JSONUtil.toJsonStr(user),timeout, TimeUnit.MINUTES);
+        request.setAttribute(Consants.CURRENT_USER_TOKEN,token);
         return GeneralResponseDto.addSuccess(token);
     }
 

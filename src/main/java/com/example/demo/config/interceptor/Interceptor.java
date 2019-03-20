@@ -8,6 +8,7 @@ import com.example.demo.utils.json.JSONUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -32,6 +33,8 @@ public class Interceptor implements HandlerInterceptor {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private RedisUtil redisUtil;
+    @Value("${spring.session.timeout}")
+    private long timeout;
 
 
     @Override
@@ -55,8 +58,8 @@ public class Interceptor implements HandlerInterceptor {
      */
     private void authOnline(String token,HttpServletRequest request) {
         if(redisUtil.existsKey(token)){
-            redisUtil.expireKey(token,30, TimeUnit.MINUTES);
-            request.setAttribute(Consants.CURRENT_USER_TOKEN,token);
+            redisUtil.expireKey(token,timeout, TimeUnit.MINUTES);
+
         }else{
             throw new RuntimeException("请先登录");
         }

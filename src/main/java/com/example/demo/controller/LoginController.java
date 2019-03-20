@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.GeneralResponseDto;
+
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @Author: ChangYu
  * @Version 1.0
@@ -22,6 +25,7 @@ public class LoginController extends BaseController {
 	@Autowired
 	private UserService userService;
 
+
 	@ApiOperation(value="登录")
 	@ApiImplicitParams({
 			@ApiImplicitParam(paramType = "query", name = "username", value = "username", required = true),
@@ -29,8 +33,8 @@ public class LoginController extends BaseController {
 	})
 	@RequestMapping(value = "/login",method = RequestMethod.POST)
 	public GeneralResponseDto login(@RequestParam(value = "username") String username,
-								   @RequestParam(value = "password") String password) {
-		return userService.login(username,password);
+									@RequestParam(value = "password") String password, HttpServletRequest request) {
+		return userService.login(request,username,password);
 	}
 
 

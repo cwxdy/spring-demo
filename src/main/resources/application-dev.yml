@@ -47,5 +47,7 @@ spring:
     in-memory: true
     pool:
       enabled: false
+  session:
+    timeout: 30
 
 

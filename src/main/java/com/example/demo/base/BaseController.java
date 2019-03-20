@@ -1,8 +1,6 @@
 package com.example.demo.base;
 
 import com.example.demo.dto.GeneralResponseDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 /**
