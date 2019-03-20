@@ -6,4 +6,5 @@ package com.example.demo.config;
  * @Version 1.0
  */
 public class Consants {
+
 }
