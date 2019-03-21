@@ -1,14 +1,18 @@
 package com.example.demo.entity;
 import com.example.demo.base.AttributeEntity;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
+
 /**
  * @Author: ChangYu
  * @Version 1.0
  */
 @Entity
-@Table(name = "SPRING_BOOT_USER")
+@Table(name = "test_user")
 public class User extends AttributeEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

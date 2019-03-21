@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 import com.example.demo.base.BaseController;
+import com.example.demo.base.SessionUtil;
+import com.example.demo.dao.UserDao;
+import com.example.demo.entity.User;
 import com.example.demo.serviceImp.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -10,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.GeneralResponseDto;
 
+import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @Author: ChangYu
@@ -40,24 +45,21 @@ public class LoginController extends BaseController {
 
 	@ApiOperation(value="注册")
 	@ApiImplicitParams({
-			@ApiImplicitParam(paramType = "query", name = "username", value = "username", required = true),
-			@ApiImplicitParam(paramType = "query", name = "password", value = "password", required = true)
+			@ApiImplicitParam(paramType = "body", name = "User", value = "User", required = true)
 	})
 	@RequestMapping(value = "/regist",method = RequestMethod.POST)
-	public GeneralResponseDto regist(@RequestParam(value = "username") String username,
-									@RequestParam(value = "password") String password) {
-		return userService.regist(username,password);
+	public GeneralResponseDto regist(@RequestBody User user) {
+		return userService.regist(user);
 	}
 
 	@ApiOperation(value="测试")
 	@ApiImplicitParams({
-			@ApiImplicitParam(paramType = "query", name = "username", value = "username", required = true),
-			@ApiImplicitParam(paramType = "query", name = "password", value = "password", required = true)
+			@ApiImplicitParam(paramType = "query", name = "orderName", value = "orderName", required = true)
 	})
-	@RequestMapping(value = "/testToken",method = RequestMethod.POST)
-	public GeneralResponseDto testToken(@RequestParam(value = "username") String username,
-										@RequestParam(value = "password") String password) {
-		System.out.println("username:"+username+";password:"+password);
-		return GeneralResponseDto.addSuccess(null);
+	@RequestMapping(value = "/pay",method = RequestMethod.POST)
+	public GeneralResponseDto testToken(@RequestParam(value = "orderName") String orderName,HttpServletRequest request
+										) {
+		System.out.println("orderName:"+orderName);
+		return GeneralResponseDto.addSuccess(orderName);
 	}
 }

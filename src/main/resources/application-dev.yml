@@ -10,7 +10,7 @@ spring:
     database: mysql
   datasource:
     master:
-      jdbc-url: jdbc:mysql://122.152.200.229:3306/springboot?useSSL=false
+      jdbc-url: jdbc:mysql://122.152.200.229:3306/local_db?useSSL=false
       username: root
       password: xlife123
       driver-class-name: com.mysql.jdbc.Driver

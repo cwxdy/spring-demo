@@ -1,7 +1,6 @@
 package com.example.demo.serviceImp;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
-import com.example.demo.config.Consants;
 import com.example.demo.config.redis.RedisUtil;
 import com.example.demo.dao.UserDao;
 import com.example.demo.dto.GeneralResponseDto;
@@ -10,6 +9,7 @@ import com.example.demo.utils.core.util.HashUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.TimeUnit;
 
@@ -26,6 +26,7 @@ public class UserService {
     private RedisUtil redisUtil;
     @Value("${spring.session.timeout}")
     private long timeout;
+
 
     /**
      * 登录
@@ -49,17 +50,13 @@ public class UserService {
 
     /**
      * 注册
-     * @param username
-     * @param password
      * @return
      */
-    public GeneralResponseDto regist(String username, String password) {
-        if(userDao.findByUsername(username)!=null){
+    public GeneralResponseDto regist(User user) {
+        if(userDao.findByUsername(user.getUsername())!=null){
             throw new RuntimeException("用户名已存在");
         }
-        User user=new User();
-        user.setPassword(String.valueOf(HashUtil.mixHash(password)));
-        user.setUsername(username);
+        user.setPassword(String.valueOf(HashUtil.mixHash(user.getPassword())));
         userDao.save(user);
         return GeneralResponseDto.addSuccess(null);
     }
