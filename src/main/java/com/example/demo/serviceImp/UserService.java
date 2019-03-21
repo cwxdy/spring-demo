@@ -8,6 +8,10 @@ import com.example.demo.entity.User;
 import com.example.demo.utils.core.util.HashUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,5 +63,17 @@ public class UserService {
         user.setPassword(String.valueOf(HashUtil.mixHash(user.getPassword())));
         userDao.save(user);
         return GeneralResponseDto.addSuccess(null);
+    }
+
+    /**
+     * 分页查询
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public Page<User> findAllUser(int pageNum, int pageSize) {
+        Sort sort = new Sort(Sort.Direction.DESC,"id");
+        Pageable pageable = new PageRequest(pageNum-1,pageSize,sort);
+        return userDao.findAll(pageable);
     }
 }

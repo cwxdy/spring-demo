@@ -52,14 +52,15 @@ public class LoginController extends BaseController {
 		return userService.regist(user);
 	}
 
-	@ApiOperation(value="测试")
+	@ApiOperation(value="查询")
 	@ApiImplicitParams({
-			@ApiImplicitParam(paramType = "query", name = "orderName", value = "orderName", required = true)
+			@ApiImplicitParam(paramType = "query", name = "pageNum", value = "pageNum", required = true),
+			@ApiImplicitParam(paramType = "query", name = "pageSize", value = "pageSize", required = true)
 	})
-	@RequestMapping(value = "/pay",method = RequestMethod.POST)
-	public GeneralResponseDto testToken(@RequestParam(value = "orderName") String orderName,HttpServletRequest request
-										) {
-		System.out.println("orderName:"+orderName);
-		return GeneralResponseDto.addSuccess(orderName);
+	@RequestMapping(value = "/findUsers",method = RequestMethod.POST)
+	public GeneralResponseDto findUsers(@RequestParam(value = "pageNum") int  pageNum,
+										@RequestParam(value = "pageSize") int  pageSize) {
+
+		return GeneralResponseDto.addSuccess(userService.findAllUser(pageNum,pageSize));
 	}
 }

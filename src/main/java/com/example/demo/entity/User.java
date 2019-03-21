@@ -12,7 +12,7 @@ import java.util.Set;
  * @Version 1.0
  */
 @Entity
-@Table(name = "test_user")
+@Table(name = "user")
 public class User extends AttributeEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,6 +21,16 @@ public class User extends AttributeEntity implements Serializable {
     private String username;
 
     private String password;
+
+    private String phone;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public Long getId() {
         return id;

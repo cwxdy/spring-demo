@@ -9,7 +9,6 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5Dialect
     database: mysql
   datasource:
-    master:
       jdbc-url: jdbc:mysql://122.152.200.229:3306/local_db?useSSL=false
       username: root
       password: xlife123
