@@ -44,13 +44,11 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         // setLoginUrl 如果不设置值，默认会自动寻找Web工程根目录下的"/login.jsp"页面 或 "/login" 映射
         shiroFilterFactoryBean.setLoginUrl("/notLogin");
-        // 设置无权限时跳转的 url;
-        shiroFilterFactoryBean.setUnauthorizedUrl("/notRole");
         // 设置拦截器
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //开放登陆接口
-        filterChainDefinitionMap.put("/api/login", "anon");
-        filterChainDefinitionMap.put("/api/regist", "anon");
+        filterChainDefinitionMap.put("/api/user/login", "anon");
+        filterChainDefinitionMap.put("/api/user/regist", "anon");
         filterChainDefinitionMap.put("/swagger-ui.html/**", "anon");
         filterChainDefinitionMap.put("/swagger-resources/**", "anon");
         filterChainDefinitionMap.put("/v2/api-docs/**", "anon");

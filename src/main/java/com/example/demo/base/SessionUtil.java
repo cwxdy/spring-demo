@@ -1,8 +1,8 @@
 package com.example.demo.base;
 
+import cn.hutool.json.JSONUtil;
 import com.example.demo.config.redis.RedisUtil;
 import com.example.demo.entity.User;
-import com.example.demo.utils.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;

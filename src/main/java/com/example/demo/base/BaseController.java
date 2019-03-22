@@ -36,7 +36,5 @@ public class BaseController {
      */
     @RequestMapping(value = "/notLogin", method = RequestMethod.GET)
     public void notLogin() { throw new RuntimeException("您尚未登陆"); }
-    @RequestMapping(value = "/notRole", method = RequestMethod.GET)
-    public void notRole() { throw new RuntimeException("您尚未登陆"); }
 
 }

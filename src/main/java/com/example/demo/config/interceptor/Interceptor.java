@@ -1,23 +1,14 @@
 package com.example.demo.config.interceptor;
 
-import com.alibaba.fastjson.JSONObject;
-import com.example.demo.config.Consants;
-import com.example.demo.config.redis.RedisUtil;
-import com.example.demo.entity.User;
-import com.example.demo.utils.json.JSONUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.concurrent.TimeUnit;
 /**
  * @Author: ChangYu
  * @Version 1.0

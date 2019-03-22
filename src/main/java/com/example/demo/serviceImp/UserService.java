@@ -1,15 +1,12 @@
 package com.example.demo.serviceImp;
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.json.JSONUtil;
+import cn.hutool.core.util.HashUtil;
 import com.example.demo.base.SessionUtil;
 import com.example.demo.config.redis.RedisUtil;
 import com.example.demo.dao.UserDao;
 import com.example.demo.dto.GeneralResponseDto;
 import com.example.demo.entity.User;
-import com.example.demo.utils.core.util.HashUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,7 +42,7 @@ public class UserService {
      * @param password
      * @return
      */
-    public GeneralResponseDto login(String username, String password,HttpServletRequest request){
+    public GeneralResponseDto login(String username, String password){
         // 从SecurityUtils里边创建一个 subject
          Subject subject = SecurityUtils.getSubject();
          // 在认证提交前准备 token（令牌）

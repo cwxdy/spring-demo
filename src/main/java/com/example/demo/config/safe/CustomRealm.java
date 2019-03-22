@@ -1,12 +1,10 @@
 package com.example.demo.config.safe;
 
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
 import com.example.demo.base.SessionUtil;
 import com.example.demo.config.redis.RedisUtil;
 import com.example.demo.dao.UserDao;
 import com.example.demo.entity.User;
-import com.example.demo.utils.core.util.HashUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;

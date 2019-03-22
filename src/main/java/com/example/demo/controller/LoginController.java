@@ -8,8 +8,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +27,7 @@ import java.util.List;
  */
 @Api(description = "用户相关接口")
 @RestController
-@RequestMapping(value = "/api/")
+@RequestMapping(value = "/api/user")
 public class LoginController extends BaseController {
 
 	@Autowired
@@ -39,9 +41,16 @@ public class LoginController extends BaseController {
 	})
 	@RequestMapping(value = "/login",method = RequestMethod.GET)
 	public GeneralResponseDto login(@RequestParam(value = "username") String username,
-									@RequestParam(value = "password") String password,HttpServletRequest request) {
-		logger.info("username:"+username);
-		return userService.login(username,password,request);
+									@RequestParam(value = "password") String password) {
+		return userService.login(username,password);
+	}
+
+	@ApiOperation(value="注销")
+	@RequestMapping(value = "/loginout",method = RequestMethod.GET)
+	public GeneralResponseDto loginout() {
+		Subject subject = SecurityUtils.getSubject();
+		subject.logout();
+		return GeneralResponseDto.addSuccess();
 	}
 
 
