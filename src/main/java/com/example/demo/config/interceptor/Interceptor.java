@@ -28,43 +28,16 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class Interceptor implements HandlerInterceptor {
 
-
-
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Autowired
-    private RedisUtil redisUtil;
     @Value("${spring.session.timeout}")
     private long timeout;
-
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         long stime=System.currentTimeMillis();
         request.setAttribute("stime",stime);
-        String beanName = ((HandlerMethod)handler).getBeanType().getName();
-        String methodName = ((HandlerMethod)handler).getMethod().getName();
-        logger.info(String.format("[接口所在Bean：%s ][函数名：%s ][入参：'%s']",beanName,methodName,null));
-        String token=request.getHeader("token");
-        if(token==null){
-            throw new RuntimeException("缺少token令牌");
-        }
-        authOnline(token);
         return true;
     }
-
-    /**
-     * 登录状态校验
-     * @param token
-     */
-    private void authOnline(String token) {
-        if(redisUtil.existsKey(token)){
-            redisUtil.expireKey(token,timeout, TimeUnit.MINUTES);
-
-        }else{
-            throw new RuntimeException("请先登录");
-        }
-    }
-
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
@@ -74,9 +47,7 @@ public class Interceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         long etime=System.currentTimeMillis();
         request.setAttribute("etime",etime);
-        String beanName = ((HandlerMethod)handler).getBeanType().getName();
-        String methodName = ((HandlerMethod)handler).getMethod().getName();
-        logger.info(String.format("[接口所在Bean：%s ][函数名：%s ][耗时：%s ms]",beanName,methodName,etime-Long.parseLong(request.getAttribute("stime").toString())));
+        logger.info(String.format("[耗时：%s ms]",etime-Long.parseLong(request.getAttribute("stime").toString())));
 
     }
 }

@@ -8,6 +8,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,11 +37,11 @@ public class LoginController extends BaseController {
 			@ApiImplicitParam(paramType = "query", name = "username", value = "username", required = true),
 			@ApiImplicitParam(paramType = "query", name = "password", value = "password", required = true)
 	})
-	@RequestMapping(value = "/login",method = RequestMethod.POST)
+	@RequestMapping(value = "/login",method = RequestMethod.GET)
 	public GeneralResponseDto login(@RequestParam(value = "username") String username,
-									@RequestParam(value = "password") String password, HttpServletRequest request) {
+									@RequestParam(value = "password") String password) {
 		logger.info("username:"+username);
-		return userService.login(request,username,password);
+		return userService.login(username,password);
 	}
 
 
@@ -57,7 +59,8 @@ public class LoginController extends BaseController {
 			@ApiImplicitParam(paramType = "query", name = "pageNum", value = "pageNum", required = true),
 			@ApiImplicitParam(paramType = "query", name = "pageSize", value = "pageSize", required = true)
 	})
-	@RequestMapping(value = "/findUsers",method = RequestMethod.POST)
+	@RequiresRoles(value = {"admin"},logical = Logical.OR)
+	@RequestMapping(value = "/findUsers",method = RequestMethod.GET)
 	public GeneralResponseDto findUsers(@RequestParam(value = "pageNum") int  pageNum,
 										@RequestParam(value = "pageSize") int  pageSize) {
 

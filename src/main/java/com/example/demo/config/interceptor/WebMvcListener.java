@@ -11,6 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 /**
  * 路由控制，控制某些路由需要进入拦截器
+ * 注意：Shiro的拦截高于HandlerInterceptor
  */
 @Configuration
 public class WebMvcListener implements WebMvcConfigurer {

@@ -6,6 +6,9 @@ import com.example.demo.dao.UserDao;
 import com.example.demo.dto.GeneralResponseDto;
 import com.example.demo.entity.User;
 import com.example.demo.utils.core.util.HashUtil;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -26,11 +29,6 @@ public class UserService {
 
     @Autowired
     private  UserDao userDao;
-    @Autowired
-    private RedisUtil redisUtil;
-    @Value("${spring.session.timeout}")
-    private long timeout;
-
 
     /**
      * 登录
@@ -38,17 +36,16 @@ public class UserService {
      * @param password
      * @return
      */
-    public GeneralResponseDto login(HttpServletRequest request,String username, String password){
-        User user=userDao.findByUsername(username);
-        if(user==null){
-            throw new RuntimeException("用户不存在");
-        }
-        if(!String.valueOf(HashUtil.fnvHash(password)).equals(user.getPassword())){
-                throw new RuntimeException("密码错误");
-        }
-        String token= IdUtil.randomUUID();
-        redisUtil.expireKey(token, JSONUtil.toJsonStr(user),timeout, TimeUnit.MINUTES);
-        return GeneralResponseDto.addSuccess(token);
+    public GeneralResponseDto login(String username, String password){
+        // 从SecurityUtils里边创建一个 subject
+         Subject subject = SecurityUtils.getSubject();
+         // 在认证提交前准备 token（令牌）
+         UsernamePasswordToken token = new UsernamePasswordToken(username, String.valueOf(HashUtil.mixHash(password)));
+        // 执行认证登陆
+         subject.login(token);
+        // 根据权限，指定返回数据
+         String role = userDao.findByUsername(username).getRole();
+        return GeneralResponseDto.addSuccess(null,role);
     }
 
 
@@ -62,7 +59,7 @@ public class UserService {
         }
         user.setPassword(String.valueOf(HashUtil.mixHash(user.getPassword())));
         userDao.save(user);
-        return GeneralResponseDto.addSuccess(null);
+        return GeneralResponseDto.addSuccess(null,null);
     }
 
     /**
