@@ -39,9 +39,9 @@ public class LoginController extends BaseController {
 	})
 	@RequestMapping(value = "/login",method = RequestMethod.GET)
 	public GeneralResponseDto login(@RequestParam(value = "username") String username,
-									@RequestParam(value = "password") String password) {
+									@RequestParam(value = "password") String password,HttpServletRequest request) {
 		logger.info("username:"+username);
-		return userService.login(username,password);
+		return userService.login(username,password,request);
 	}
 
 

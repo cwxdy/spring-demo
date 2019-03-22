@@ -2,6 +2,7 @@ package com.example.demo.config.safe;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
+import com.example.demo.base.SessionUtil;
 import com.example.demo.config.redis.RedisUtil;
 import com.example.demo.dao.UserDao;
 import com.example.demo.entity.User;
@@ -15,6 +16,8 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -27,6 +30,8 @@ import java.util.concurrent.TimeUnit;
 public class CustomRealm extends AuthorizingRealm {
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private SessionUtil sessionUtil;
     @Autowired
     private RedisUtil redisUtil;
     @Value("${spring.session.timeout}")
@@ -49,7 +54,9 @@ public class CustomRealm extends AuthorizingRealm {
         } else if (!user.getPassword().equals(new String((char[])token.getCredentials()))) {
             throw new AccountException("密码不正确");
         }
-//        redisUtil.expireKey(tokens, JSONUtil.toJsonStr(user),timeout, TimeUnit.MINUTES);
+        HttpServletRequest request=sessionUtil.getCurrentHttpServletRequest();
+        HttpSession session=request.getSession();
+        redisUtil.expireKey(session.getId(), JSONUtil.toJsonStr(user),timeout, TimeUnit.MINUTES);
         return new SimpleAuthenticationInfo(token.getPrincipal(), user.getPassword(), getName());
     }
 
@@ -61,7 +68,6 @@ public class CustomRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        System.out.println("————权限认证————");
         String username = (String) SecurityUtils.getSubject().getPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //获得该用户角色

@@ -1,12 +1,12 @@
 package com.example.demo.base;
 
-import com.example.demo.config.Consants;
 import com.example.demo.config.redis.RedisUtil;
 import com.example.demo.entity.User;
 import com.example.demo.utils.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,12 +23,25 @@ public class SessionUtil {
 
     /**
      * 获取当前用户信息
-     * @param request
      * @return
      */
-    public User getOnlineUser(HttpServletRequest request){
+    public User getCurrentUser(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+                .getRequestAttributes())
+                .getRequest();
+        String sessionId=request.getRequestedSessionId();
+        return JSONUtil.toBean(redisUtil.get(sessionId),User.class);
 
-        return JSONUtil.toBean(redisUtil.get(request.getHeader("token")),User.class);
+    }
 
+    /**
+     * 获取当前请求
+     * @return
+     */
+    public HttpServletRequest getCurrentHttpServletRequest(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+                .getRequestAttributes())
+                .getRequest();
+       return request;
     }
 }

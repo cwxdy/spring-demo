@@ -1,6 +1,7 @@
 package com.example.demo.serviceImp;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
+import com.example.demo.base.SessionUtil;
 import com.example.demo.config.redis.RedisUtil;
 import com.example.demo.dao.UserDao;
 import com.example.demo.dto.GeneralResponseDto;
@@ -8,6 +9,7 @@ import com.example.demo.entity.User;
 import com.example.demo.utils.core.util.HashUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -29,6 +32,12 @@ public class UserService {
 
     @Autowired
     private  UserDao userDao;
+    @Autowired
+    private RedisUtil redisUtil;
+    @Value("${spring.session.timeout}")
+    private long timeout;
+    @Autowired
+    private SessionUtil sessionUtil;
 
     /**
      * 登录
@@ -36,7 +45,7 @@ public class UserService {
      * @param password
      * @return
      */
-    public GeneralResponseDto login(String username, String password){
+    public GeneralResponseDto login(String username, String password,HttpServletRequest request){
         // 从SecurityUtils里边创建一个 subject
          Subject subject = SecurityUtils.getSubject();
          // 在认证提交前准备 token（令牌）
@@ -44,7 +53,9 @@ public class UserService {
         // 执行认证登陆
          subject.login(token);
         // 根据权限，指定返回数据
-         String role = userDao.findByUsername(username).getRole();
+         User user = userDao.findByUsername(username);
+        String role=user.getRole();
+
         return GeneralResponseDto.addSuccess(null,role);
     }
 
@@ -69,6 +80,8 @@ public class UserService {
      * @return
      */
     public Page<User> findAllUser(int pageNum, int pageSize) {
+        User user=sessionUtil.getCurrentUser();
+        System.out.println(user.toString());
         Sort sort = new Sort(Sort.Direction.DESC,"id");
         Pageable pageable = new PageRequest(pageNum-1,pageSize,sort);
         return userDao.findAll(pageable);
