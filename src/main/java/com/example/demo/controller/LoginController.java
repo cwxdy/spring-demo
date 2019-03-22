@@ -23,7 +23,7 @@ import java.util.List;
  * @Author: ChangYu
  * @Version 1.0
  */
-@Api(tags = {"用户相关接口"})
+@Api(description = "用户相关接口")
 @RestController
 @RequestMapping(value = "/api/")
 public class LoginController extends BaseController {

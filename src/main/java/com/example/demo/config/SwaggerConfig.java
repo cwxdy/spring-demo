@@ -41,7 +41,7 @@ public class SwaggerConfig {
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Capgemini RDC脚手架")
-                .version("2.1.5.5")
+                .version("1.0.0")
                 .build();
     }
 
