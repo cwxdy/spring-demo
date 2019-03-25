@@ -1,4 +1,5 @@
 package com.example.demo.controller;
+import cn.hutool.json.JSONObject;
 import com.example.demo.base.BaseController;
 import com.example.demo.base.SessionUtil;
 import com.example.demo.dao.UserDao;
@@ -46,33 +47,28 @@ public class LoginController extends BaseController {
 	}
 
 	@ApiOperation(value="注销")
-	@RequestMapping(value = "/loginout",method = RequestMethod.GET)
-	public GeneralResponseDto loginout() {
+	@RequestMapping(value = "/logout",method = RequestMethod.GET)
+	public GeneralResponseDto logout() {
 		Subject subject = SecurityUtils.getSubject();
 		subject.logout();
 		return GeneralResponseDto.addSuccess();
 	}
 
 
-	@ApiOperation(value="注册")
+	@ApiOperation(value="保存用户")
 	@ApiImplicitParams({
-			@ApiImplicitParam(paramType = "body", name = "User", value = "User", required = true)
+			@ApiImplicitParam(paramType = "body", name = "user", value = "user", required = true)
 	})
-	@RequestMapping(value = "/regist",method = RequestMethod.POST)
-	public GeneralResponseDto regist(@RequestBody User user) {
-		return userService.regist(user);
+	@RequestMapping(value = "/save",method = RequestMethod.POST)
+	public GeneralResponseDto save(@RequestBody User user) {
+		return userService.doSaveUser(user);
 	}
 
-	@ApiOperation(value="查询")
-	@ApiImplicitParams({
-			@ApiImplicitParam(paramType = "query", name = "pageNum", value = "pageNum", required = true),
-			@ApiImplicitParam(paramType = "query", name = "pageSize", value = "pageSize", required = true)
-	})
-	@RequiresRoles(value = {"admin"},logical = Logical.OR)
-	@RequestMapping(value = "/findUsers",method = RequestMethod.GET)
-	public GeneralResponseDto findUsers(@RequestParam(value = "pageNum") int  pageNum,
-										@RequestParam(value = "pageSize") int  pageSize) {
 
-		return GeneralResponseDto.addSuccess(userService.findAllUser(pageNum,pageSize));
+	@ApiOperation(value="查询")
+	@RequestMapping(value = "/findUsers",method = RequestMethod.POST)
+	public GeneralResponseDto findUsers(@RequestBody JSONObject json) {
+
+		return GeneralResponseDto.addSuccess(userService.findAllUser(json));
 	}
 }

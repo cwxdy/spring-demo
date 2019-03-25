@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.UserDao">
+    <sql id="BASE_TABLE">
+    user
+  </sql>
+
+    <sql id="BASE_COLUMN">
+    id,username,password,phone,realname,email,status
+  </sql>
+    <!--新增-->
+    <insert id="insertEntity" parameterType="com.example.demo.entity.User">
+        INSERT INTO
+        <include refid="BASE_TABLE"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            username,password,realname,status,
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            #{username},#{password},#{realname},#{status},
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+        </trim>
+    </insert>
+    <!--根据条件筛选-->
+    <select id="findByExample" resultType="com.example.demo.entity.User"
+            parameterType="com.example.demo.entity.User">
+        SELECT
+        <include refid="BASE_COLUMN"/>
+        FROM
+        <include refid="BASE_TABLE"/>
+        where 1=1
+        <if test="realname !=null">
+            <bind name="realname" value="'%' + realname + '%'"/>
+            AND realname like #{realname}
+        </if>
+        <if test="username !=null">
+            <bind name="username" value="'%' + username + '%'"/>
+            AND username like #{username}
+        </if>
+        <if test="phone!=null">
+            <bind name="phone" value="'%' + phone + '%'"/>
+            AND phone like #{phone}
+        </if>
+    </select>
+
+    <!--修改用户-->
+    <update id="updateEntity" parameterType="com.example.demo.entity.User">
+        UPDATE
+        <include refid="BASE_TABLE"/>
+        SET
+        <if test="phone!=null">
+            phone = #{phone},
+        </if>
+        <if test="email!=null">
+            email = #{email},
+        </if>
+        <if test="password!=null">
+            password = #{password}
+        </if>
+        WHERE id=#{id}
+    </update>
+</mapper>

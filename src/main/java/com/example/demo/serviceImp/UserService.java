@@ -1,24 +1,20 @@
 package com.example.demo.serviceImp;
-import cn.hutool.core.util.HashUtil;
-import com.example.demo.base.SessionUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.example.demo.config.redis.RedisUtil;
 import com.example.demo.dao.UserDao;
 import com.example.demo.dto.GeneralResponseDto;
 import com.example.demo.entity.User;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
+import static cn.hutool.crypto.digest.DigestUtil.md5Hex;
 
 /**
  * @Author: ChangYu
@@ -33,8 +29,6 @@ public class UserService {
     private RedisUtil redisUtil;
     @Value("${spring.session.timeout}")
     private long timeout;
-    @Autowired
-    private SessionUtil sessionUtil;
 
     /**
      * 登录
@@ -46,41 +40,46 @@ public class UserService {
         // 从SecurityUtils里边创建一个 subject
          Subject subject = SecurityUtils.getSubject();
          // 在认证提交前准备 token（令牌）
-         UsernamePasswordToken token = new UsernamePasswordToken(username, String.valueOf(HashUtil.mixHash(password)));
+         UsernamePasswordToken token = new UsernamePasswordToken(username, md5Hex(password));
         // 执行认证登陆
          subject.login(token);
         // 根据权限，指定返回数据
          User user = userDao.findByUsername(username);
         String role=user.getRole();
-
         return GeneralResponseDto.addSuccess(null,role);
     }
 
 
     /**
-     * 注册
+     * 保存用户
      * @return
      */
-    public GeneralResponseDto regist(User user) {
-        if(userDao.findByUsername(user.getUsername())!=null){
-            throw new RuntimeException("用户名已存在");
+    public GeneralResponseDto doSaveUser(User user) {
+        user.setPassword(md5Hex(user.getPassword()));
+        if(user.getId()!=null){
+            userDao.updateEntity(user);
+        }else{
+            if(userDao.findByUsername(user.getUsername())!=null){
+                throw new RuntimeException("用户名已存在");
+            }
+            userDao.insertEntity(user);
         }
-        user.setPassword(String.valueOf(HashUtil.mixHash(user.getPassword())));
-        userDao.save(user);
-        return GeneralResponseDto.addSuccess(null,null);
+        return GeneralResponseDto.addSuccess();
     }
+
 
     /**
      * 分页查询
-     * @param pageNum
-     * @param pageSize
      * @return
      */
-    public Page<User> findAllUser(int pageNum, int pageSize) {
-        User user=sessionUtil.getCurrentUser();
-        System.out.println(user.toString());
-        Sort sort = new Sort(Sort.Direction.DESC,"id");
-        Pageable pageable = new PageRequest(pageNum-1,pageSize,sort);
-        return userDao.findAll(pageable);
+    public PageInfo<User> findAllUser(JSONObject json) {
+        //将参数传给这个方法就可以实现物理分页了，非常简单。
+        int pageNo=json.getInt("pageNo",1);
+        int pageSize=json.getInt("pageSize",99999);
+        PageHelper.startPage(pageNo-1, pageSize);
+        User user= JSONUtil.toBean(json,User.class);
+        List<User> userDomains = userDao.findByExample(user);
+        PageInfo result = new PageInfo(userDomains);
+        return result;
     }
 }

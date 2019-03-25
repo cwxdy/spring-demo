@@ -1,19 +1,13 @@
 package com.example.demo.base;
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
 /**
  * @Author: ChangYu
  * @Version 1.0
  */
-@MappedSuperclass
 public class AttributeEntity  extends AuditEntity implements Serializable {
-    @Column(length = 50)
     private String attr1;
-    @Column(length = 50)
     private String attr2;
-    @Column(length = 50)
     private String attr3;
     public String getAttr1() {
         return attr1;
