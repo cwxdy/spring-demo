@@ -6,7 +6,7 @@
   </sql>
 
     <sql id="BASE_COLUMN">
-    id,username,password,phone,realname,email,status
+    id,username,password,phone,realname,email,status,role
   </sql>
     <!--新增-->
     <insert id="insertEntity" parameterType="com.example.demo.entity.User">

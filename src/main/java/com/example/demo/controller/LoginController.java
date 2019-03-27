@@ -67,7 +67,7 @@ public class LoginController extends BaseController {
 
 	@ApiOperation(value="查询")
 	@RequestMapping(value = "/findUsers",method = RequestMethod.POST)
-	public GeneralResponseDto findUsers(@RequestBody JSONObject json) {
+	public GeneralResponseDto findUsers(@RequestBody(required = false) JSONObject json) {
 
 		return GeneralResponseDto.addSuccess(userService.findAllUser(json));
 	}

@@ -1,4 +1,5 @@
 package com.example.demo.entity;
+import com.baomidou.mybatisplus.annotations.TableName;
 import com.example.demo.base.AttributeEntity;
 
 import java.io.Serializable;
@@ -7,7 +8,7 @@ import java.io.Serializable;
  * @Author: ChangYu
  * @Version 1.0
  */
-public class User extends AttributeEntity implements Serializable {
+public class User implements Serializable {
     private Long id;
 
     private String realname;

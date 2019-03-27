@@ -1,12 +1,13 @@
 package com.example.demo.serviceImp;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.example.demo.config.redis.RedisUtil;
 import com.example.demo.dao.UserDao;
 import com.example.demo.dto.GeneralResponseDto;
 import com.example.demo.entity.User;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -72,14 +73,23 @@ public class UserService {
      * 分页查询
      * @return
      */
-    public PageInfo<User> findAllUser(JSONObject json) {
+    public Page<User> findAllUser(JSONObject json) {
         //将参数传给这个方法就可以实现物理分页了，非常简单。
         int pageNo=json.getInt("pageNo",1);
         int pageSize=json.getInt("pageSize",99999);
-        PageHelper.startPage(pageNo-1, pageSize);
+        Page<User> page = new Page<>(pageNo,pageSize);
         User user= JSONUtil.toBean(json,User.class);
-        List<User> userDomains = userDao.findByExample(user);
-        PageInfo result = new PageInfo(userDomains);
-        return result;
+        /**
+         * 复杂分页查询可以直接写mapper.xml
+         */
+//        List<User> userDomains = userDao.findByExample(page,user);
+        /**
+         * 简单分页查询可以直接用通用方法
+         */
+        EntityWrapper<User> wrapper=new EntityWrapper<>();
+        wrapper.like("username",user.getUsername());
+        List<User> userDomains = userDao.selectPage(page,wrapper);
+        page.setRecords(userDomains);
+        return page;
     }
 }
