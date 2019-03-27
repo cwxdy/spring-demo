@@ -14,6 +14,8 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import java.util.List;
 import static cn.hutool.crypto.digest.DigestUtil.md5Hex;
 
@@ -58,12 +60,12 @@ public class UserService {
     public GeneralResponseDto doSaveUser(User user) {
         user.setPassword(md5Hex(user.getPassword()));
         if(user.getId()!=null){
-            userDao.updateEntity(user);
+            userDao.updateById(user);
         }else{
-            if(userDao.findByUsername(user.getUsername())!=null){
+            if(userDao.selectOne(user)!=null){
                 throw new RuntimeException("用户名已存在");
             }
-            userDao.insertEntity(user);
+            userDao.insert(user);
         }
         return GeneralResponseDto.addSuccess();
     }
@@ -80,14 +82,18 @@ public class UserService {
         Page<User> page = new Page<>(pageNo,pageSize);
         User user= JSONUtil.toBean(json,User.class);
         /**
-         * 复杂分页查询可以直接写mapper.xml
-         */
-//        List<User> userDomains = userDao.findByExample(page,user);
-        /**
          * 简单分页查询可以直接用通用方法
          */
         EntityWrapper<User> wrapper=new EntityWrapper<>();
-        wrapper.like("username",user.getUsername());
+        if(!StringUtils.isEmpty(user.getUsername())){
+            wrapper.like("username",user.getUsername());
+        }
+        if(!StringUtils.isEmpty(user.getRealname())){
+            wrapper.like("realname",user.getRealname());
+        }
+        if(!StringUtils.isEmpty(user.getPhone())){
+            wrapper.like("phone",user.getPhone());
+        }
         List<User> userDomains = userDao.selectPage(page,wrapper);
         page.setRecords(userDomains);
         return page;
