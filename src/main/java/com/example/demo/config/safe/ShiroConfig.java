@@ -1,8 +1,6 @@
 package com.example.demo.config.safe;
 
-import com.example.demo.base.BaseController;
 import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -48,6 +46,7 @@ public class ShiroConfig {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //开放登陆接口
         filterChainDefinitionMap.put("/api/user/login", "anon");
+        filterChainDefinitionMap.put("/websocket", "anon");
         filterChainDefinitionMap.put("/swagger-ui.html/**", "anon");
         filterChainDefinitionMap.put("/swagger-resources/**", "anon");
         filterChainDefinitionMap.put("/v2/api-docs/**", "anon");

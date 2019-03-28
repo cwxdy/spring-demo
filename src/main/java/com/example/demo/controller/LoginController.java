@@ -1,8 +1,8 @@
 package com.example.demo.controller;
+
 import cn.hutool.json.JSONObject;
 import com.example.demo.base.BaseController;
-import com.example.demo.base.SessionUtil;
-import com.example.demo.dao.UserDao;
+import com.example.demo.dto.GeneralResponseDto;
 import com.example.demo.entity.User;
 import com.example.demo.serviceImp.UserService;
 import io.swagger.annotations.Api;
@@ -10,17 +10,9 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import com.example.demo.dto.GeneralResponseDto;
-
-import javax.jws.soap.SOAPBinding;
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * @Author: ChangYu

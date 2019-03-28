@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 /**
  * @Author: ChangYu
  * @Version 1.0
@@ -35,6 +36,6 @@ public class BaseController {
      * @return
      */
     @RequestMapping(value = "/notLogin", method = RequestMethod.GET)
-    public void notLogin() { throw new RuntimeException("您尚未登陆"); }
+    public void notLogin() { throw new RuntimeException("请先登录"); }
 
 }

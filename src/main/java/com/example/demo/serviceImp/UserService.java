@@ -1,8 +1,8 @@
 package com.example.demo.serviceImp;
+
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.example.demo.config.redis.RedisUtil;
 import com.example.demo.dao.UserDao;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+
 import static cn.hutool.crypto.digest.DigestUtil.md5Hex;
 
 /**

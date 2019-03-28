@@ -1,6 +1,4 @@
 package com.example.demo.entity;
-import com.baomidou.mybatisplus.annotations.TableName;
-import com.example.demo.base.AttributeEntity;
 
 import java.io.Serializable;
 
