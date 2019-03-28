@@ -1,6 +1,6 @@
 package com.example.demo.config.safe;
 
-import com.example.demo.dao.db1.UserDao;
+import com.example.demo.dao.UserDao;
 import com.example.demo.entity.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;

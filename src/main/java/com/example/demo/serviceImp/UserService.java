@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.config.redis.RedisUtil;
-import com.example.demo.dao.db1.UserDao;
+import com.example.demo.dao.UserDao;
 import com.example.demo.dto.GeneralResponseDto;
 import com.example.demo.entity.User;
 import org.apache.shiro.SecurityUtils;

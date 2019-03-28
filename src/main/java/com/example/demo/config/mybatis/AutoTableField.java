@@ -1,6 +1,5 @@
 package com.example.demo.config.mybatis;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.shiro.SecurityUtils;
@@ -21,29 +20,24 @@ public class AutoTableField implements MetaObjectHandler {
         Object createDate = this.getFieldValByName("createDate",metaObject);
         Object createBy = this.getFieldValByName("createBy",metaObject);
         if(null == createDate){
-            /**
-             * 设置实体属性setter进去的值，优先级要高于自动填充的值。
-             * 如果实体没有设置该属性，就给默认值，防止entity的setter值被覆盖。
-             */
             this.setFieldValByName("createDate", new Date(),metaObject);
         }
-        JSONObject currentUser= (JSONObject) JSONUtil.parse(SecurityUtils.getSubject().getPrincipal());
+        String username =SecurityUtils.getSubject().getPrincipal().toString();
         if(null==createBy){
-            this.setFieldValByName("createBy",currentUser.getStr("username"),metaObject);
+            this.setFieldValByName("createBy",username,metaObject);
         }
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        System.out.println("xxxxxxx");
         Object modifyDate = this.getFieldValByName("updateDate",metaObject);
         Object updateBy = this.getFieldValByName("updateBy",metaObject);
         if(null == modifyDate){
             this.setFieldValByName("updateDate", new Date(),metaObject);
         }
-        JSONObject currentUser= (JSONObject) JSONUtil.parse(SecurityUtils.getSubject().getPrincipal());
+        String username =SecurityUtils.getSubject().getPrincipal().toString();
         if(null==updateBy){
-            this.setFieldValByName("updateBy",currentUser.getStr("username"),metaObject);
+            this.setFieldValByName("updateBy",username,metaObject);
         }
     }
 }
