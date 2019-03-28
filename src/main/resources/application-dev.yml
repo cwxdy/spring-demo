@@ -88,13 +88,12 @@ mybatis-plus:
     #logic-delete-value: 1
     #logic-not-delete-value: 0
     #sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
-    #自定义填充策略接口实现
-    #meta-object-handler: com.baomidou.springboot.MyMetaObjectHandler
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
     #配置JdbcTypeForNull
     jdbc-type-for-null: 'null'
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 
 

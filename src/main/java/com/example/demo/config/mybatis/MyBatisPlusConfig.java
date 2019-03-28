@@ -1,9 +1,8 @@
 package com.example.demo.config.mybatis;
-
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
-import com.baomidou.mybatisplus.MybatisConfiguration;
-import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean;
+import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
@@ -81,5 +80,4 @@ public class MyBatisPlusConfig {
         });
         return sqlSessionFactory.getObject();
     }
-
 }

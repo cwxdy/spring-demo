@@ -2,10 +2,11 @@ package com.example.demo.serviceImp;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.config.redis.RedisUtil;
-import com.example.demo.dao.UserDao;
+import com.example.demo.dao.db1.UserDao;
 import com.example.demo.dto.GeneralResponseDto;
 import com.example.demo.entity.User;
 import org.apache.shiro.SecurityUtils;
@@ -15,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import java.util.List;
 
 import static cn.hutool.crypto.digest.DigestUtil.md5Hex;
 
@@ -63,7 +62,7 @@ public class UserService {
         if(user.getId()!=null){
             userDao.updateById(user);
         }else{
-            if(userDao.selectOne(user)!=null){
+            if(userDao.selectOne(new QueryWrapper<User>().eq("username",user.getUsername()))!=null){
                 throw new RuntimeException("用户名已存在");
             }
             userDao.insert(user);
@@ -76,7 +75,7 @@ public class UserService {
      * 分页查询
      * @return
      */
-    public Page<User> findAllUser(JSONObject json) {
+    public IPage<User> findAllUser(JSONObject json) {
         //将参数传给这个方法就可以实现物理分页了，非常简单。
         int pageNo=json.getInt("pageNo",1);
         int pageSize=json.getInt("pageSize",99999);
@@ -85,7 +84,7 @@ public class UserService {
         /**
          * 简单分页查询可以直接用通用方法
          */
-        EntityWrapper<User> wrapper=new EntityWrapper<>();
+        QueryWrapper<User> wrapper=new QueryWrapper<>();
         if(!StringUtils.isEmpty(user.getUsername())){
             wrapper.like("username",user.getUsername());
         }
@@ -95,8 +94,7 @@ public class UserService {
         if(!StringUtils.isEmpty(user.getPhone())){
             wrapper.like("phone",user.getPhone());
         }
-        List<User> userDomains = userDao.selectPage(page,wrapper);
-        page.setRecords(userDomains);
-        return page;
+        IPage<User> userIPage = userDao.selectPage(page,wrapper);
+        return userIPage;
     }
 }

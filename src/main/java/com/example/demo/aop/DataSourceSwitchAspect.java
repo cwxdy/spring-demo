@@ -1,9 +1,7 @@
 package com.example.demo.aop;
 
-import com.example.demo.base.BaseController;
 import com.example.demo.config.mybatis.DBTypeEnum;
 import com.example.demo.config.mybatis.DbContextHolder;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;

@@ -1,6 +1,5 @@
 package com.example.demo.aop;
 
-import com.example.demo.base.BaseController;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
