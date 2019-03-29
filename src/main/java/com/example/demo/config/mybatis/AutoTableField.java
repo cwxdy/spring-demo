@@ -1,6 +1,7 @@
 package com.example.demo.config.mybatis;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.example.demo.entity.User;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Component;
@@ -22,9 +23,9 @@ public class AutoTableField implements MetaObjectHandler {
         if(null == createDate){
             this.setFieldValByName("createDate", new Date(),metaObject);
         }
-        String username =SecurityUtils.getSubject().getPrincipal().toString();
+        User user =(User)SecurityUtils.getSubject().getPrincipal();
         if(null==createBy){
-            this.setFieldValByName("createBy",username,metaObject);
+            this.setFieldValByName("createBy",user.getUsername(),metaObject);
         }
     }
 
@@ -35,9 +36,9 @@ public class AutoTableField implements MetaObjectHandler {
         if(null == modifyDate){
             this.setFieldValByName("updateDate", new Date(),metaObject);
         }
-        String username =SecurityUtils.getSubject().getPrincipal().toString();
+        User user =(User)SecurityUtils.getSubject().getPrincipal();
         if(null==updateBy){
-            this.setFieldValByName("updateBy",username,metaObject);
+            this.setFieldValByName("updateBy",user.getUsername(),metaObject);
         }
     }
 }

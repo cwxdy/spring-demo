@@ -10,8 +10,10 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -51,13 +53,25 @@ public class LoginController extends BaseController {
 	@ApiImplicitParams({
 			@ApiImplicitParam(paramType = "body", name = "user", value = "user", required = true)
 	})
+	@RequiresRoles("admin")
 	@RequestMapping(value = "/save",method = RequestMethod.POST)
 	public GeneralResponseDto save(@RequestBody User user) {
 		return userService.doSaveUser(user);
 	}
 
+	@ApiOperation(value="删除用户")
+	@ApiImplicitParams({
+			@ApiImplicitParam(paramType = "body", name = "user", value = "user", required = true)
+	})
+	@RequiresRoles("admin")
+	@RequestMapping(value = "/delete",method = RequestMethod.POST)
+	public GeneralResponseDto delete(@RequestBody User user) {
+		return userService.doDelete(user);
+	}
+
 
 	@ApiOperation(value="查询")
+	@RequiresRoles("admin")
 	@RequestMapping(value = "/findUsers",method = RequestMethod.POST)
 	public GeneralResponseDto findUsers(@RequestBody(required = false) JSONObject json) {
 

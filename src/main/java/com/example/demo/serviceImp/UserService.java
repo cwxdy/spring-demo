@@ -97,4 +97,14 @@ public class UserService {
         IPage<User> userIPage = userDao.selectPage(page,wrapper);
         return userIPage;
     }
+
+    /**
+     * 删除
+     * @param user
+     * @return
+     */
+    public GeneralResponseDto doDelete(User user) {
+        userDao.deleteById(user.getId());
+        return GeneralResponseDto.addSuccess();
+    }
 }

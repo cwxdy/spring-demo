@@ -42,7 +42,7 @@ public class CustomRealm extends AuthorizingRealm {
         } else if (!user.getPassword().equals(new String((char[])token.getCredentials()))) {
             throw new AccountException("密码不正确");
         }
-        return new SimpleAuthenticationInfo(token.getPrincipal(), user.getPassword(), getName());
+        return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
     }
 
     /**
@@ -53,10 +53,10 @@ public class CustomRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //获得该用户角色
-        String role = userDao.findByUsername(username).getRole();
+        String role = userDao.selectById(user.getId()).getRole();
         Set<String> set = new HashSet<>();
         //需要将 role 封装到 Set 作为 info.setRoles() 的参数
         set.add(role);

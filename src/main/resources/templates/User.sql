@@ -13,8 +13,9 @@ CREATE TABLE `user` (
   `attr3` varchar(100) DEFAULT NULL,
   `remarks` varchar(255) DEFAULT NULL,
   `create_by` varchar(50) DEFAULT NULL,
-  `create_date` date DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
   `update_by` varchar(50) DEFAULT NULL,
-  `update_date` date DEFAULT NULL,
+  `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+
