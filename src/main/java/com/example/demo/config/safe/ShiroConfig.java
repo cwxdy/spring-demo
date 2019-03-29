@@ -47,10 +47,13 @@ public class ShiroConfig {
         //开放登陆接口
         filterChainDefinitionMap.put("/api/user/login", "anon");
         filterChainDefinitionMap.put("/websocket", "anon");
+        //swagger资源放行
         filterChainDefinitionMap.put("/swagger-ui.html/**", "anon");
         filterChainDefinitionMap.put("/swagger-resources/**", "anon");
         filterChainDefinitionMap.put("/v2/api-docs/**", "anon");
         filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
+        //静态资源放行
+        filterChainDefinitionMap.put("/static/**", "anon");
         //其余接口一律拦截
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
         filterChainDefinitionMap.put("/**", "authc");

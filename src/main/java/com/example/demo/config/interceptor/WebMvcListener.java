@@ -22,15 +22,4 @@ public class WebMvcListener implements WebMvcConfigurer {
         registry.addInterceptor(interceptor).addPathPatterns("/api/**")
                 .excludePathPatterns("/api/user/login/**");
     }
-
-    /**
-     * 静态资源访问
-     * @param registry
-     */
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // TODO: 3/19/2019  
-        registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/resources/templates/");
-        registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/resources/static/");
-    }
 }
