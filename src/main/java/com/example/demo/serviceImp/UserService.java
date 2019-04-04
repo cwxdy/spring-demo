@@ -57,7 +57,7 @@ public class UserService {
      * 保存用户
      * @return
      */
-    public GeneralResponseDto doSaveUser(User user) {
+    public void doSaveUser(User user) {
         user.setPassword(md5Hex(user.getPassword()));
         if(user.getId()!=null){
             userDao.updateById(user);
@@ -67,7 +67,6 @@ public class UserService {
             }
             userDao.insert(user);
         }
-        return GeneralResponseDto.addSuccess();
     }
 
 
@@ -103,8 +102,7 @@ public class UserService {
      * @param user
      * @return
      */
-    public GeneralResponseDto doDelete(User user) {
+    public void doDelete(User user) {
         userDao.deleteById(user.getId());
-        return GeneralResponseDto.addSuccess();
     }
 }

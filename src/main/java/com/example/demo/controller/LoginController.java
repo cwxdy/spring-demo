@@ -56,7 +56,8 @@ public class LoginController extends BaseController {
 	@RequiresRoles("admin")
 	@RequestMapping(value = "/save",method = RequestMethod.POST)
 	public GeneralResponseDto save(@RequestBody User user) {
-		return userService.doSaveUser(user);
+		userService.doSaveUser(user);
+		return GeneralResponseDto.addSuccess();
 	}
 
 	@ApiOperation(value="删除用户")
@@ -66,7 +67,9 @@ public class LoginController extends BaseController {
 	@RequiresRoles("admin")
 	@RequestMapping(value = "/delete",method = RequestMethod.POST)
 	public GeneralResponseDto delete(@RequestBody User user) {
-		return userService.doDelete(user);
+		userService.doDelete(user);
+		return GeneralResponseDto.addSuccess();
+
 	}
 
 
@@ -74,7 +77,6 @@ public class LoginController extends BaseController {
 	@RequiresRoles("admin")
 	@RequestMapping(value = "/findUsers",method = RequestMethod.POST)
 	public GeneralResponseDto findUsers(@RequestBody(required = false) JSONObject json) {
-
 		return GeneralResponseDto.addSuccess(userService.findAllUser(json));
 	}
 }
