@@ -1,9 +1,9 @@
 package com.example.demo;
 
-import org.mybatis.spring.annotation.MapperScan;
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import static org.springframework.boot.SpringApplication.run;
@@ -14,8 +14,6 @@ import static org.springframework.boot.SpringApplication.run;
 @SpringBootApplication
 @EnableScheduling
 @EnableSwagger2
-@MapperScan("com.example.demo.dao")
-@EnableTransactionManagement
 public class SpringDemoApplication {
 
 	public static void main(String[] args) {
