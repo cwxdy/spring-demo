@@ -1,8 +1,6 @@
 package com.example.demo;
 
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 

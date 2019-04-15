@@ -12,7 +12,7 @@ public class GeneralResponseDto implements Serializable {
 	private Object data;
 	public static final String SYS_SUCCESS="success";
 	public static final String SYS_ERROR="error";
-    public GeneralResponseDto(int code, String returnMsg, Object data) {
+    private GeneralResponseDto(int code, String returnMsg, Object data) {
         super();
         this.code = code;
         this.returnMsg = returnMsg;

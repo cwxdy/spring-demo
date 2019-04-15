@@ -1,6 +1,10 @@
 package com.example.demo.controller;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONObject;
+
+import java.util.Date;
+
 import com.example.demo.base.BaseController;
 import com.example.demo.dto.GeneralResponseDto;
 import com.example.demo.entity.User;
@@ -14,6 +18,7 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Role;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -78,5 +83,11 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "/findUsers",method = RequestMethod.POST)
 	public GeneralResponseDto findUsers(@RequestBody(required = false) JSONObject json) {
 		return GeneralResponseDto.addSuccess(userService.findAllUser(json));
+	}
+
+	@RequestMapping(value = "test",method = RequestMethod.POST)
+	public GeneralResponseDto test(@RequestParam(value = "startDate")Date startDate){
+		Date s=DateUtil.parse(DateUtil.formatDate(startDate));
+		return GeneralResponseDto.addSuccess(s);
 	}
 }

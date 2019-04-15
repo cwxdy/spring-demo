@@ -47,6 +47,7 @@ public class ShiroConfig {
         //开放登陆接口
         filterChainDefinitionMap.put("/api/user/login", "anon");
         filterChainDefinitionMap.put("/websocket", "anon");
+        filterChainDefinitionMap.put("/api/user/test", "anon");
         //swagger资源放行
         filterChainDefinitionMap.put("/swagger-ui.html/**", "anon");
         filterChainDefinitionMap.put("/swagger-resources/**", "anon");
