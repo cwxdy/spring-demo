@@ -29,6 +29,9 @@ public class GeneralResponseDto implements Serializable {
     public  static GeneralResponseDto addSuccess(){
         return new GeneralResponseDto(1,null,null);
     }
+    public  static GeneralResponseDto addError(int code, String returnMsg){
+        return new GeneralResponseDto(-1,returnMsg,null);
+    }
 
     public int getCode() {
         return code;

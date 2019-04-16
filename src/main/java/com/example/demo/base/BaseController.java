@@ -25,9 +25,9 @@ public class BaseController {
     public GeneralResponseDto runtimeExceptionHandler(Exception except) {
         except.printStackTrace();
         if(except instanceof UnauthorizedException){
-            return new GeneralResponseDto(-1, "权限不足", null);
+            return GeneralResponseDto.addError(-1, "权限不足");
         }else{
-            return new GeneralResponseDto(-1, except.getMessage(), null);
+            return GeneralResponseDto.addError(-1, except.getMessage());
         }
     }
 

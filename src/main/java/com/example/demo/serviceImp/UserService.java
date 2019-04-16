@@ -48,8 +48,7 @@ public class UserService {
          subject.login(token);
         // 根据权限，指定返回数据
          User user = userDao.findByUsername(username);
-        String role=user.getRole();
-        return GeneralResponseDto.addSuccess(null,role);
+        return GeneralResponseDto.addSuccess(user);
     }
 
 

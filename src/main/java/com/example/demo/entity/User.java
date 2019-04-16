@@ -10,18 +10,19 @@ import java.io.Serializable;
 /**
  * @Author: ChangYu
  * @Version 1.0
+ * 用户表
  */
-@TableName("user")
+@TableName("t_user")
 public class User extends AttributeEntity implements Serializable {
     @TableId(value = "id",type = IdType.AUTO)//指定自增策略
     private Long id;
+    private Long roleId;
     private String realname;
     private String username;
     private String password;
     private String phone;
     private String email;
     private int status=0;
-    private String role;
 
     public Long getId() {
         return id;
@@ -78,15 +79,6 @@ public class User extends AttributeEntity implements Serializable {
     public void setStatus(int status) {
         this.status = status;
     }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -97,7 +89,20 @@ public class User extends AttributeEntity implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", status=" + status +
-                ", role='" + role + '\'' +
                 '}';
+    }
+
+    /**
+     * @return the roleId
+     */
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    /**
+     * @param roleId the roleId to set
+     */
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 }
