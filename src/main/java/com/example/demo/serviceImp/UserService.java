@@ -47,7 +47,7 @@ public class UserService {
         // 执行认证登陆
          subject.login(token);
         // 根据权限，指定返回数据
-         User user = userDao.findByUsername(username);
+        User user = (User) subject.getPrincipal();
         return GeneralResponseDto.addSuccess(user);
     }
 
