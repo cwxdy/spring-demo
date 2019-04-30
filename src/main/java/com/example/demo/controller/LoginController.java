@@ -39,7 +39,7 @@ public class LoginController extends BaseController {
 			@ApiImplicitParam(paramType = "query", name = "username", value = "username", required = true),
 			@ApiImplicitParam(paramType = "query", name = "password", value = "password", required = true)
 	})
-	@RequestMapping(value = "/login",method = RequestMethod.GET)
+	@RequestMapping(value = "/login",method = RequestMethod.POST)
 	public GeneralResponseDto login(@RequestParam(value = "username") String username,
 									@RequestParam(value = "password") String password) {
 		return userService.login(username,password);
@@ -80,7 +80,7 @@ public class LoginController extends BaseController {
 
 	@ApiOperation(value="查询")
 	@RequiresRoles("admin")
-	@RequestMapping(value = "/findUsers",method = RequestMethod.POST)
+	@RequestMapping(value = "/findUsers",method = RequestMethod.GET)
 	public GeneralResponseDto findUsers(@RequestBody(required = false) JSONObject json) {
 		return GeneralResponseDto.addSuccess(userService.findAllUser(json));
 	}
