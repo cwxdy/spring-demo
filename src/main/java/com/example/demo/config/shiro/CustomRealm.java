@@ -3,8 +3,8 @@ package com.example.demo.config.shiro;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.dao.RoleDao;
 import com.example.demo.dao.UserDao;
+import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -14,13 +14,8 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import cn.hutool.core.map.MapUtil;
-
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * @Author: ChangYu
@@ -30,6 +25,8 @@ import java.util.Set;
 public class CustomRealm extends AuthorizingRealm {
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private RoleDao roleDao;
     @Value("${spring.session.timeout}")
     private long timeout;
 
@@ -64,9 +61,10 @@ public class CustomRealm extends AuthorizingRealm {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //获得该用户角色及权限
-        Map<String,String> role =userDao.findRoleByUserId(user.getId());
-        info.addRole(MapUtil.getStr(role, "role"));
-        info.setStringPermissions((new HashSet<>(Arrays.asList(MapUtil.getStr(role, "permission_name").split(",")))));
+        Role userRole=roleDao.selectOne(new QueryWrapper<Role>().eq("id",user.getRoleId()));
+        String role =userRole.getRole();
+        info.addRole(role);
+        info.setStringPermissions((new HashSet<>(Arrays.asList(userRole.getPermissionName().split(",")))));
         return info;
     }
 }

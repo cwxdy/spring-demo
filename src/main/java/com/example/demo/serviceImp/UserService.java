@@ -1,10 +1,8 @@
 package com.example.demo.serviceImp;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.base.ServiceException;
 import com.example.demo.config.redis.RedisUtil;
 import com.example.demo.dao.UserDao;
 import com.example.demo.dto.GeneralResponseDto;
@@ -15,7 +13,6 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import static cn.hutool.crypto.digest.DigestUtil.md5Hex;
 
@@ -62,7 +59,7 @@ public class UserService {
             userDao.updateById(user);
         }else{
             if(userDao.selectOne(new QueryWrapper<User>().eq("username",user.getUsername()))!=null){
-                throw new RuntimeException("用户名已存在");
+                throw new ServiceException("用户名已存在");
             }
             userDao.insert(user);
         }
@@ -73,35 +70,17 @@ public class UserService {
      * 分页查询
      * @return
      */
-    public IPage<User> findAllUser(JSONObject json) {
-        //将参数传给这个方法就可以实现物理分页了，非常简单。
-        int pageNo=json.getInt("pageNo",1);
-        int pageSize=json.getInt("pageSize",99999);
-        Page<User> page = new Page<>(pageNo,pageSize);
-        User user= JSONUtil.toBean(json,User.class);
-        /**
-         * 简单分页查询可以直接用通用方法
-         */
-        QueryWrapper<User> wrapper=new QueryWrapper<>();
-        if(!StringUtils.isEmpty(user.getUsername())){
-            wrapper.like("username",user.getUsername());
-        }
-        if(!StringUtils.isEmpty(user.getRealname())){
-            wrapper.like("realname",user.getRealname());
-        }
-        if(!StringUtils.isEmpty(user.getPhone())){
-            wrapper.like("phone",user.getPhone());
-        }
-        IPage<User> userIPage = userDao.selectPage(page,wrapper);
-        return userIPage;
+    public Object findAllUser(String username, String phone, String realname, String status,String email, String pageNo, String pageSize) {
+        Page<User> page = new Page<>(Integer.parseInt(pageNo),Integer.parseInt(pageSize));
+        return userDao.findUsersByPage(page,username,phone,realname,status,email);
     }
 
     /**
      * 删除
-     * @param user
      * @return
      */
-    public void doDelete(User user) {
-        userDao.deleteById(user.getId());
+    public void doDelete(int id) {
+        userDao.deleteById(id);
     }
+
 }

@@ -1,10 +1,11 @@
 package com.example.demo.entity;
 
-import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.demo.base.AttributeEntity;
+
+import java.io.Serializable;
 /**
  * 角色权限表
  */
@@ -13,7 +14,16 @@ public class Role extends AttributeEntity implements Serializable {
     @TableId(value = "id", type = IdType.AUTO) // 指定自增策略
     private Long id;
     private String desc;
+    private String role;
     private String permissionName;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     /**
      * @return the id

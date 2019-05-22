@@ -11,5 +11,26 @@
     <include refid="DEFAULT_COLUMN"/>
     id,username,password,phone,realname,email,status,role
   </sql>
-
+    <select id="findUsersByPage" resultType="com.example.demo.entity.User">
+        select * from t_user
+        <where>
+            <trim suffixOverrides="and">
+                <if test="username !=null and username !=''">
+                    username like '%${username}%' and
+                </if>
+                <if test="email !=null and email !=''">
+                    email like '%${email}%' and
+                </if>
+                <if test="phone !=null and phone !=''">
+                    phone like '%${phone}%' and
+                </if>
+                <if test="status !=null and status !=''">
+                    status = #{status} and
+                </if>
+                <if test="realname !=null and realname !=''">
+                    realname like '%${realname}%'
+                </if>
+            </trim>
+        </where>
+    </select>
 </mapper>

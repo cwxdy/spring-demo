@@ -1,10 +1,5 @@
 package com.example.demo.controller;
 
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.json.JSONObject;
-
-import java.util.Date;
-
 import com.example.demo.base.BaseController;
 import com.example.demo.dto.GeneralResponseDto;
 import com.example.demo.entity.User;
@@ -17,8 +12,6 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Role;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -35,10 +28,6 @@ public class LoginController extends BaseController {
 
 
 	@ApiOperation(value="登录")
-	@ApiImplicitParams({
-			@ApiImplicitParam(paramType = "query", name = "username", value = "username", required = true),
-			@ApiImplicitParam(paramType = "query", name = "password", value = "password", required = true)
-	})
 	@RequestMapping(value = "/login",method = RequestMethod.POST)
 	public GeneralResponseDto login(@RequestParam(value = "username") String username,
 									@RequestParam(value = "password") String password) {
@@ -55,9 +44,6 @@ public class LoginController extends BaseController {
 
 
 	@ApiOperation(value="保存用户")
-	@ApiImplicitParams({
-			@ApiImplicitParam(paramType = "body", name = "user", value = "user", required = true)
-	})
 	@RequiresRoles("admin")
 	@RequestMapping(value = "/save",method = RequestMethod.POST)
 	public GeneralResponseDto save(@RequestBody User user) {
@@ -66,13 +52,10 @@ public class LoginController extends BaseController {
 	}
 
 	@ApiOperation(value="删除用户")
-	@ApiImplicitParams({
-			@ApiImplicitParam(paramType = "body", name = "user", value = "user", required = true)
-	})
 	@RequiresRoles("admin")
 	@RequestMapping(value = "/delete",method = RequestMethod.POST)
-	public GeneralResponseDto delete(@RequestBody User user) {
-		userService.doDelete(user);
+	public GeneralResponseDto delete(int id) {
+		userService.doDelete(id);
 		return GeneralResponseDto.addSuccess();
 
 	}
@@ -81,13 +64,14 @@ public class LoginController extends BaseController {
 	@ApiOperation(value="查询")
 	@RequiresRoles("admin")
 	@RequestMapping(value = "/findUsers",method = RequestMethod.GET)
-	public GeneralResponseDto findUsers(@RequestBody(required = false) JSONObject json) {
-		return GeneralResponseDto.addSuccess(userService.findAllUser(json));
-	}
-
-	@RequestMapping(value = "test",method = RequestMethod.POST)
-	public GeneralResponseDto test(@RequestParam(value = "startDate")Date startDate){
-		Date s=DateUtil.parse(DateUtil.formatDate(startDate));
-		return GeneralResponseDto.addSuccess(s);
+	public GeneralResponseDto findUsers(@RequestParam(value = "username",required = false)String username,
+										@RequestParam(value = "phone",required = false)String phone,
+										@RequestParam(value = "realname",required = false)String realname,
+										@RequestParam(value = "status",required = false)String status,
+										@RequestParam(value = "email",required = false)String email,
+										@RequestParam(value = "pageNo",required = false,defaultValue = "0")String pageNo,
+										@RequestParam(value = "pageSize",required = false,defaultValue = "999")String pageSize
+										) {
+		return GeneralResponseDto.addSuccess(userService.findAllUser(username,phone,realname,status,email,pageNo,pageSize));
 	}
 }

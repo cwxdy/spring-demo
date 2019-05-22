@@ -6,15 +6,8 @@ spring:
       primary: master #设置默认的数据源或者数据源组,默认值即为master
       datasource:
         master:
-          url: jdbc:mysql://122.152.200.229:3306/local?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false
-          username: root
-          password: xlife123
-          driver-class-name: com.mysql.jdbc.Driver
-        # slave_1:
-        #   url: jdbc:mysql://122.152.200.229:3306/mybatis?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false
-        #   username: root
-        #   password: xlife123
-        #   driver-class-name: com.mysql.jdbc.Driver
+          url: jdbc:sqlite:D:\MyProject\spring-demo\sqlite.db
+          driver-class-name: org.sqlite.JDBC
   redis:
     database: 0
     host: 122.152.200.229 #Redis服务器地址
@@ -27,39 +20,26 @@ spring:
         max-idle: 8 # 连接池中的最小空闲连接
         min-idle: 0
         timeout: 0  # 连接超时时间（毫秒）
-  activemq.:
-    broker-url: tcp://121.43.175.216:61616
-    user: admin
-    password: admin
-    in-memory: true
-    pool:
-      enabled: false
-  jms:
-    pub-sub-domain: true
+#  activemq.:
+#    broker-url: tcp://121.43.175.216:61616
+#    user: admin
+#    password: admin
+#    in-memory: true
+#    pool:
+#      enabled: false
+#  jms:
+#    pub-sub-domain: true
   session:
     timeout: 1800
 logging:
   config: classpath:logback-boot.xml
 mybatis-plus:
-  # 如果是放在src/main/java目录下 classpath:/com/xxx/*/mapper/*Mapper.xml
-  # 如果是放在resource目录 classpath:/mapper/*Mapper.xml
   mapper-locations:  classpath:mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
   #实体扫描，多个package用逗号或者分号分隔
   typeAliasesPackage:  com.example.demo.entity  # 注意：对应实体类的路径
-  global-config:
-    #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
-    id-type: 0
-    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
-    field-strategy: 1
-    #驼峰下划线转换
-    db-column-underline: true
-    #数据库大写下划线转换
-    capital-mode: true
   configuration:
+    #默认开启
     map-underscore-to-camel-case: true
-    cache-enabled: false
-    #配置JdbcTypeForNull
-    jdbc-type-for-null: 'null'
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 

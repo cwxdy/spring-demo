@@ -8,15 +8,11 @@ public class GeneralResponseDto implements Serializable {
 	
 	private int code;
 	private String returnMsg;
-	private String status;
 	private Object data;
-	public static final String SYS_SUCCESS="success";
-	public static final String SYS_ERROR="error";
     private GeneralResponseDto(int code, String returnMsg, Object data) {
         super();
         this.code = code;
         this.returnMsg = returnMsg;
-        this.status = code==-1?SYS_ERROR:SYS_SUCCESS;
         this.data=data;
     }
 
@@ -57,21 +53,5 @@ public class GeneralResponseDto implements Serializable {
         this.returnMsg = returnMsg;
     }
 
-    public String getStatus() {
-        return status;
-    }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-
-
-    public static String getSysSuccess() {
-        return SYS_SUCCESS;
-    }
-
-    public static String getSysError() {
-        return SYS_ERROR;
-    }
 }
