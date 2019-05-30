@@ -20,10 +20,10 @@ public class GeneralResponseDto implements Serializable {
         return new GeneralResponseDto(1,role,data);
     }
     public  static GeneralResponseDto addSuccess(Object data){
-        return new GeneralResponseDto(1,null,data);
+        return new GeneralResponseDto(1,"success",data);
     }
     public  static GeneralResponseDto addSuccess(){
-        return new GeneralResponseDto(1,null,null);
+        return new GeneralResponseDto(1,"success",null);
     }
     public  static GeneralResponseDto addError(int code, String returnMsg){
         return new GeneralResponseDto(-1,returnMsg,null);

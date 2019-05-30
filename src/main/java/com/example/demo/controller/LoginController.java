@@ -69,8 +69,8 @@ public class LoginController extends BaseController {
 										@RequestParam(value = "realname",required = false)String realname,
 										@RequestParam(value = "status",required = false)String status,
 										@RequestParam(value = "email",required = false)String email,
-										@RequestParam(value = "pageNo",required = false,defaultValue = "0")String pageNo,
-										@RequestParam(value = "pageSize",required = false,defaultValue = "999")String pageSize
+										@RequestParam(value = "pageNo",required = false,defaultValue = "1")int pageNo,
+										@RequestParam(value = "pageSize",required = false,defaultValue = "999")int pageSize
 										) {
 		return GeneralResponseDto.addSuccess(userService.findAllUser(username,phone,realname,status,email,pageNo,pageSize));
 	}

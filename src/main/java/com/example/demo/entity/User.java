@@ -22,7 +22,7 @@ public class User extends AttributeEntity implements Serializable {
     private String password;
     private String phone;
     private String email;
-    private int status=0;
+    private int status=1;
 
     public Long getId() {
         return id;

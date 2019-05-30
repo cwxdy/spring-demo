@@ -24,4 +24,5 @@ public interface UserDao extends BaseMapper<User> {
                                 @Param("status")String status,
                                 @Param("email")String email
                                 );
+    void update(User user);
 }

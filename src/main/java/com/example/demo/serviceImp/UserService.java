@@ -54,13 +54,15 @@ public class UserService {
      * @return
      */
     public void doSaveUser(User user) {
-        user.setPassword(md5Hex(user.getPassword()));
+        //修改
         if(user.getId()!=null){
-            userDao.updateById(user);
+            userDao.update(user);
+        //新增
         }else{
             if(userDao.selectOne(new QueryWrapper<User>().eq("username",user.getUsername()))!=null){
                 throw new ServiceException("用户名已存在");
             }
+            user.setPassword(md5Hex(user.getPassword()));
             userDao.insert(user);
         }
     }
@@ -70,8 +72,8 @@ public class UserService {
      * 分页查询
      * @return
      */
-    public Object findAllUser(String username, String phone, String realname, String status,String email, String pageNo, String pageSize) {
-        Page<User> page = new Page<>(Integer.parseInt(pageNo),Integer.parseInt(pageSize));
+    public Object findAllUser(String username, String phone, String realname, String status,String email, int pageNo, int pageSize) {
+        Page<User> page = new Page<>(pageNo,pageSize);
         return userDao.findUsersByPage(page,username,phone,realname,status,email);
     }
 
