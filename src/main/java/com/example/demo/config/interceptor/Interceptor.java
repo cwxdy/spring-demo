@@ -20,8 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 public class Interceptor implements HandlerInterceptor {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Value("${spring.session.timeout}")
-    private long timeout;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
