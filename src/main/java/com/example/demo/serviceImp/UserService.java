@@ -2,6 +2,7 @@ package com.example.demo.serviceImp;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.base.BaseService;
 import com.example.demo.base.ServiceException;
 import com.example.demo.config.redis.RedisUtil;
 import com.example.demo.dao.UserDao;
@@ -13,6 +14,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import static cn.hutool.crypto.digest.DigestUtil.md5Hex;
 
@@ -21,12 +23,8 @@ import static cn.hutool.crypto.digest.DigestUtil.md5Hex;
  * @Version 1.0
  */
 @Service
-public class UserService {
+public class UserService extends BaseService<UserDao> {
 
-    @Autowired
-    private  UserDao userDao;
-    @Autowired
-    private RedisUtil redisUtil;
     @Value("${spring.session.timeout}")
     private long timeout;
 
@@ -56,14 +54,17 @@ public class UserService {
     public void doSaveUser(User user) {
         //修改
         if(user.getId()!=null){
-            userDao.update(user);
+            if(!StringUtils.isEmpty(user.getPassword())){
+                user.setPassword(md5Hex(user.getPassword()));
+            }
+            this.dao.update(user);
         //新增
         }else{
-            if(userDao.selectOne(new QueryWrapper<User>().eq("username",user.getUsername()))!=null){
+            if(this.dao.selectOne(new QueryWrapper<User>().eq("username",user.getUsername()))!=null){
                 throw new ServiceException("用户名已存在");
             }
             user.setPassword(md5Hex(user.getPassword()));
-            userDao.insert(user);
+            this.dao.insert(user);
         }
     }
 
@@ -74,7 +75,7 @@ public class UserService {
      */
     public Object findAllUser(String username, String phone, String realname, String status,String email, int pageNo, int pageSize) {
         Page<User> page = new Page<>(pageNo,pageSize);
-        return userDao.findUsersByPage(page,username,phone,realname,status,email);
+        return this.dao.findUsersByPage(page,username,phone,realname,status,email);
     }
 
     /**
@@ -82,7 +83,7 @@ public class UserService {
      * @return
      */
     public void doDelete(int id) {
-        userDao.deleteById(id);
+        this.dao.deleteById(id);
     }
 
 }

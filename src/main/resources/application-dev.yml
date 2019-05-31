@@ -20,22 +20,12 @@ spring:
         max-idle: 8 # 连接池中的最小空闲连接
         min-idle: 0
         timeout: 0  # 连接超时时间（毫秒）
-#  activemq.:
-#    broker-url: tcp://121.43.175.216:61616
-#    user: admin
-#    password: admin
-#    in-memory: true
-#    pool:
-#      enabled: false
-#  jms:
-#    pub-sub-domain: true
   session:
     timeout: 1800
 logging:
   config: classpath:logback-boot.xml
 mybatis-plus:
   mapper-locations:  classpath:mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
-  #实体扫描，多个package用逗号或者分号分隔
   typeAliasesPackage:  com.example.demo.entity  # 注意：对应实体类的路径
   configuration:
     #默认开启
