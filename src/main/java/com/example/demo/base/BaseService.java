@@ -16,4 +16,5 @@ public class BaseService<R> {
     @Autowired
     public R dao;
 
+
 }

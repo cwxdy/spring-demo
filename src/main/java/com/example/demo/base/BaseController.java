@@ -1,9 +1,18 @@
 package com.example.demo.base;
+
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import com.example.demo.dto.GeneralResponseDto;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
 
 /**
  * @Author: ChangYu
@@ -31,6 +40,26 @@ public class BaseController {
      * @return
      */
     @RequestMapping(value = "/notLogin", method = RequestMethod.GET)
-    public void notLogin() { throw new RuntimeException("请先登录"); }
+    public void notLogin() { throw new ServiceException("请先登录"); }
+
+    /**
+     * excel模板下载
+     * @param response
+     * @param filename
+     * @throws IOException
+     */
+    @ApiOperation(value="模板下载",produces="application/octet-stream")
+    @RequestMapping(value = "/downloadTemplate", method = RequestMethod.GET)
+    public void downloadTempate(HttpServletResponse response, @RequestParam(value ="filename") String filename) throws IOException {
+        String path=Consants.TEMPATE_PATH_PREFIX+String.format("%s.xlsx",filename);
+        Boolean exist=FileUtil.exist(path);
+        if(!exist){
+            throw new ServiceException("文件模板不存在");
+        }
+        ExcelWriter writer= ExcelUtil.getWriter(path);
+        response.setContentType("application/octet-stream;charset=utf-8");
+        response.setHeader("Content-Disposition", String.format("attachment;filename=%s.xlsx", filename));
+        writer.flush(response.getOutputStream());
+    }
 
 }

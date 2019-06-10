@@ -5,8 +5,6 @@ import com.example.demo.dto.GeneralResponseDto;
 import com.example.demo.entity.User;
 import com.example.demo.serviceImp.UserService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -74,4 +72,5 @@ public class LoginController extends BaseController {
 										) {
 		return GeneralResponseDto.addSuccess(userService.findAllUser(username,phone,realname,status,email,pageNo,pageSize));
 	}
+
 }
