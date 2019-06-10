@@ -36,7 +36,7 @@ public class Interceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         long etime=System.currentTimeMillis();
         request.setAttribute("etime",etime);
-        logger.info(String.format("[耗时：%s ms]",etime-Long.parseLong(request.getAttribute("stime").toString())));
+        logger.info(String.format("[Time consuming:%s ms]",etime-Long.parseLong(request.getAttribute("stime").toString())));
 
     }
 }

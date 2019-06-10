@@ -32,12 +32,12 @@ public class HttpAspect {
     public void dobefore(JoinPoint joinPoint){
         ServletRequestAttributes arrt = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = arrt.getRequest();
-        logger.info("请求地址 url:{}",request.getRequestURL());
-        logger.info("请求方式 ：{}",request.getMethod());
-        logger.info("请求者ip地址：{}",request.getRemoteAddr());
-        logger.info("访问的类与方法：{}",joinPoint.getSignature().getDeclaringTypeName()+"."
+        logger.info("Request url:{}",request.getRequestURL());
+        logger.info("Request method :{}",request.getMethod());
+        logger.info("Request ip:{}",request.getRemoteAddr());
+        logger.info("Request target:{}",joinPoint.getSignature().getDeclaringTypeName()+"."
                 +joinPoint.getSignature().getName());
-        logger.info("请求参数：{}",joinPoint.getArgs());
+        logger.info("Request params:{}",joinPoint.getArgs());
     }
 
 }
