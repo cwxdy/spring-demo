@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
 
 /**
  * @Author: ChangYu
@@ -29,9 +28,11 @@ public class BaseController {
     @ExceptionHandler(Exception.class)
     public GeneralResponseDto runtimeExceptionHandler(Exception except) {
         except.printStackTrace();
+        logger.info(except.getMessage());
         if(except instanceof UnauthorizedException){
             return GeneralResponseDto.addError(-1, "权限不足");
         }else{
+
             return GeneralResponseDto.addError(-1, except.getMessage());
         }
     }
@@ -52,7 +53,7 @@ public class BaseController {
     @RequestMapping(value = "/downloadTemplate", method = RequestMethod.GET)
     public void downloadTempate(HttpServletResponse response, @RequestParam(value ="filename") String filename) throws IOException {
         String path=Consants.TEMPATE_PATH_PREFIX+String.format("%s.xlsx",filename);
-        Boolean exist=FileUtil.exist(path);
+        boolean exist = FileUtil.exist(path);
         if(!exist){
             throw new ServiceException("文件模板不存在");
         }
