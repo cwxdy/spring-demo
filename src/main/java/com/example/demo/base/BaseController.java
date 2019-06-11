@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * @Author: ChangYu
@@ -60,7 +61,10 @@ public class BaseController {
         ExcelWriter writer= ExcelUtil.getWriter(path);
         response.setContentType("application/octet-stream;charset=utf-8");
         response.setHeader("Content-Disposition", String.format("attachment;filename=%s.xlsx", filename));
-        writer.flush(response.getOutputStream());
+        OutputStream out = response.getOutputStream();
+        writer.flush(out);
+        writer.close();
+        out.close();
     }
 
 }
